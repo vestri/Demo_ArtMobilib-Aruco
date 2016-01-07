@@ -1,0 +1,123 @@
+{
+    "constants": {
+        "asset_path": "./assets",
+        "image_path": "images",
+        "video_path": "videos",
+        "model_path": "models"
+    },
+    "object": {
+        "type": "Scene",
+        "uuid": "Scene1",
+        "children": [
+            {
+                "type": "HemisphereLight",
+                "uuid": "Light",
+                "color": 16777147,
+                "groundColor": 526368,
+                "intensity": 1
+            },
+            {
+                "type": "Mesh",
+                "uuid": "Box1",
+                "material": "material_banana",
+                "geometry": "geo_plane",
+                "position": [
+                    0,
+                    0,
+                    150
+                ],
+                "rotation": [
+                  0,
+                  3.1415,
+                  0
+                ]
+            },
+            {
+                "type": "Collada",
+                "uuid": "Monster",
+                "url": "monster.dae",
+                "position": [
+                    30,
+                    0,
+                    -100
+                ]
+            },
+            {
+                "type": "OBJMTL",
+                "uuid": "Rock",
+                "objUrl": "rock.obj",
+                "mtlUrl": "rock.mtl",
+                "position": [
+                    -6,
+                    0,
+                    -10
+                ]
+            }
+        ]
+    },
+    "geometries": [
+        {
+            "type": "PlaneGeometry",
+            "uuid": "geo_plane",
+            "width": 50,
+            "height": 50
+        },
+        {
+            "type": "BoxGeometry",
+            "uuid": "box",
+            "width": 30,
+            "height": 30,
+            "depth": 30
+        }
+    ],
+    "materials": [
+        {
+            "type": "SpriteMaterial",
+            "uuid": "material_banana",
+            "map": "texture_banana",
+            "transparent": true
+        },
+        {
+            "type": "SpriteMaterial",
+            "uuid": "material_sprite",
+            "map": "texture_banana",
+            "transparent": true
+        },
+        {
+            "type": "MeshBasicMaterial",
+            "uuid": "material_basic",
+            "color": "0xcc4400"
+        }
+    ],
+    "textures": [
+        {
+            "image": "img_banana",
+            "uuid": "texture_banana",
+            "animated": true
+        },
+        {
+            "image": "img_coconut",
+            "uuid": "texture_coconut"
+        }
+    ],
+    "images": [
+        {
+            "uuid": "img_lehublot",
+            "url": "lehublot.jpg"
+        },
+        {
+            "uuid": "img_coconut",
+            "url": "coconut.png"
+        },
+        {
+            "uuid": "img_banana",
+            "url": "banana.gif"
+        }
+    ],
+    "videos": [
+        {
+            "uuid": "vid_frozen",
+            "url": "frozen360p.mp4"
+        }
+    ]
+}
