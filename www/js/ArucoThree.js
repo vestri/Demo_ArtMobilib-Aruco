@@ -45,7 +45,7 @@ ArucoThree = function(isDevice) {
     _geo_converter.SetOriginFromDegres(43.7141516, 7.2889739);
 
     _scene = new Scene( { canvas: three_canvas, fov: 40, gps_converter: _geo_converter } );
-    _scene.Init();
+    _scene.SetFullWindow();
 
 
     if (typeof cordova != 'undefined'
@@ -106,6 +106,17 @@ ArucoThree = function(isDevice) {
     _trackedObjManager = new TrackedObjManager( { camera: _scene.GetCamera() } );
     _trackedObjManager.Add(mesh, 'mesh', _scene.AddObject, _scene.RemoveObject);
 
+    // start Image marker detection
+    var canvas2d = document.createElement('canvas');
+    canvas2d.width=640;
+    canvas2d.height=480;
+    _AMmarkerManager = new MarkerManager(_webcam_grabbing.domElement, canvas2d);
+
+    // we load trained images
+    _AMmarkerManager.AddMarker("lib/ArtMobilib/data/gvf.jpg");
+    _AMmarkerManager.AddMarker("lib/ArtMobilib/data/3Dtricart.jpg");
+    _AMmarkerManager.AddMarker("lib/ArtMobilib/data/vsd.jpg");
+
 
     // Main loop
     (function loop() {
@@ -125,18 +136,25 @@ ArucoThree = function(isDevice) {
 
       for (marker of markers) {
         if (marker.id == 1001) {
-          var o = new THREE.Object3D();
-          _js_aruco_marker.markerToObject3D(marker, o);
-          _trackedObjManager.TrackCompose('mesh', o.position, o.quaternion, o.scale);
+        var o = new THREE.Object3D();
+        _js_aruco_marker.markerToObject3D(marker, o);
+        _trackedObjManager.TrackCompose('mesh', o.position, o.quaternion, o.scale);
         }
+      }
+
+      if (_AMmarkerManager.ProcessImage(_webcam_grabbing.domElement)) {
+        console.log("Marker detected");
+        var o = new THREE.Object3D();
+        _AMmarkerManager.markerToObject3D(o);
+        _trackedObjManager.TrackCompose('mesh', o.position, o.quaternion, o.scale);
       }
 
       _trackedObjManager.Update();
 
 
-      _scene.Update();
-      _scene.Render();
+    _scene.Update();
+    _scene.Render();
 
-    })();
-  }
+  })();
+}
 }
